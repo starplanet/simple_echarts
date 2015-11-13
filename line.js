@@ -156,7 +156,8 @@ simple_echarts.line = new function() {
                         type: 'value',
                         axisLabel: {
                             formatter: ylabel,
-                        }
+                        },
+                        scale: true,
                     }
                 ],
             series: []
