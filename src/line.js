@@ -1,23 +1,28 @@
 var simple_echarts = window.simple_echarts || {};
 
 simple_echarts.line = new function() {
-    function get_label(label) {
-        if(label) {
-            return '{value}' + label;
-        } else {
-            return '{value}';
-        }
-    }
+    /**
+     * 绘制单条折线图
+     * @param xdata: [1, 2, 3...] x轴数值数组
+     * @param ydata: [2.0, 4.9, 5.1, ...] y轴数值数组
+     * @param options:
+     * {
+     *      title: string|标题,
+     *      xlabel: string|x轴标签,
+     *      ylabel: string|y轴标签,
+     *      zoom: boolean|是否带x轴缩放插件,
+     *      markPoint: boolean|是否标记最大值和最小值点, 默认为true
+     *      smooth: boolean|是否平滑曲线, 默认为true
+     * }
+     */
+    this.singleLineOption = function(xdata, ydata, options) {
+        options = options || {};
+        var xlabel = get_label(options.xlabel);
+        var ylabel = get_label(options.ylabel);
+        var markPoint = null_default(options.markPoint, true);
+        var smooth = null_default(options.smooth, true);
 
-    this.singleLineOption = function(xdata, ydata, title, xlabel, ylabel, zoom, markPoint, smooth) {
-        xlabel = get_label(xlabel);
-        ylabel = get_label(ylabel);
-
-        // 向后兼容
-        markPoint = markPoint == null ? true : markPoint;
-        smooth = smooth == null ? false : smooth;
-
-        option = {
+        var option = {
             tooltip: {
                 trigger: 'axis'
             },
@@ -52,7 +57,7 @@ simple_echarts.line = new function() {
                 ],
             series: [
                     {
-                        name: title,
+                        name: options.title || '',
                         type: 'line',
                         data: ydata,
                         smooth: smooth,
@@ -107,7 +112,7 @@ simple_echarts.line = new function() {
             };
         }
 
-        if(zoom) {
+        if(options.zoom) {
             option.dataZoom = {
                 show: true,
                 realtime: true,
@@ -119,11 +124,23 @@ simple_echarts.line = new function() {
     }
 
 
-    // 用法: xdata为x轴标签数组, ydata为形如[[1,2...], [1, 3...]]数组, legends为对应曲线标签
-    this.linesOption = function(xdata, ydata, legends, title, xlabel, ylabel, zoom) {
-        xlabel = get_label(xlabel);
-        ylabel = get_label(ylabel);
-        option = {
+    /**
+     * 绘制多条折线图
+     * @param xdata: [1, 2, 3...] x轴数值数组
+     * @param ydata: [[2.0, 4.9, 5.1...]...] 多维数组, 每个元素代表一条折线
+     * @param legends: ['通胀率', ...]图例数组
+     * @param options: 可选项
+     * {
+     *      xlabel: string|x轴标签,
+     *      ylabel: string|y轴标签,
+     *      zoom: boolean|是否带x轴缩放插件, 默认为false
+     * }
+     */
+    this.linesOption = function(xdata, ydata, legends, options) {
+        options = options || {};
+        var xlabel = get_label(options.xlabel);
+        var ylabel = get_label(options.ylabel);
+        var option = {
             tooltip: {
                 trigger: 'axis'
             },
@@ -162,8 +179,8 @@ simple_echarts.line = new function() {
                 ],
             series: []
         };
-        for(i = 0; i < ydata.length; i++) {
-            serial_option = {
+        for(var i = 0; i < ydata.length; i++) {
+            var serial_option = {
                 name: legends[i],
                 type: 'line',
                 data: ydata[i],
@@ -171,7 +188,7 @@ simple_echarts.line = new function() {
             };
             option.series.push(serial_option);
         }
-        if(zoom) {
+        if(options.zoom) {
             option.dataZoom = {
                 show: true,
                 realtime: true,

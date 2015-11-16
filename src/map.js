@@ -11,7 +11,23 @@ simple_echarts.map = new function() {
         return max_val;
     }
 
-    this.basic_map_option = function(pros, cities, top5, geos, range, title, name) {
+    /**
+     * 绘制地图, 以颜色深浅表示省份分布, 以mark point大小标记城市数值分布, 并重点突出top5
+     * @param pros: 省份数据, 格式如: [{ name: '北京', value: 100 },...],
+     * @param cities: 城市数据, 格式如: [{ name: '海门', value: 9 },...],
+     * @param top5: 前5城市数据, 格式如: [{ name: '廊坊', value: 193},...],
+     * @param geos: 地理数据, 格式如: { '海门': [121.15, 31.89], },
+     * @param range: [10, 200]数值范围, 第一个为最小值, 第二个为最大值,
+     * @param options: 可选项
+     * {
+     *      title: string|标题,
+     *      name: string|数据名称,
+     * }
+     */
+    this.basic_map_option = function(pros, cities, top5, geos, range, options) {
+        options = options || {};
+        var title = null_default(options.title, '');
+        var name = null_default(options.name, '');
         var max_val = get_max_value(cities);
         var symbol_size = function(v) {
             v = v / max_val * 10 + 5;
@@ -131,17 +147,29 @@ simple_echarts.map = new function() {
         return;
     };
 
-    // 用法: dates有值时, pros, cities, top5的值为形如[[ { name: '廊坊', value:193 } ], ..]的数组;
-    // dates无值时, pros, cities, top5直接为形如[ { name: '廊坊', value: 193 } ]的数组
-    // geos: 为城市坐标, 所有数据共享这个坐标数据
-    // 返回: 返回用于创建地图的option
-    this.mapOption = function(pros, cities, top5, geos, range, title, dates) {
+    /**
+     * 绘制可带时间轴的地图
+     * @param pros: 省份数据, 格式如: [{ name: '北京', value: 100 },...],
+     * @param cities: 城市数据, 格式如: [{ name: '海门', value: 9 },...],
+     * @param top5: 前5城市数据, 格式如: [{ name: '廊坊', value: 193},...],
+     * @param geos: 地理数据, 格式如: { '海门': [121.15, 31.89], },
+     * @param range: [10, 200]数值范围, 第一个为最小值, 第二个为最大值,
+     * @param options: 可选项
+     * {
+     *      title: string|标题,
+     *      dates: array|日期数组, 如果dates存在, 则pros, cities, top5变为多维数组, 每个元素对应一个日期的数据,
+     * }
+     */
+    this.mapOption = function(pros, cities, top5, geos, range, options) {
+        options = options || {};
+        var dates = options.dates;
+        var title = null_default(options.title, '');
         if(!dates) {
-            return this.basic_map_option(pros, cities, top5, geos, ranges, title, title);
+            return this.basic_map_option(pros, cities, top5, geos, range, title, title);
         } else {
-            option = new timeline_option();
+            var option = new timeline_option();
             for(var i = 0; i < dates.length; i++) {
-                basic_option = this.basic_map_option(pros[i], cities[i], top5[i], geos, range, title, dates[i]);
+                var basic_option = this.basic_map_option(pros[i], cities[i], top5[i], geos, range, title, dates[i]);
                 option.append(dates[i], basic_option);
             }
             return option.option;

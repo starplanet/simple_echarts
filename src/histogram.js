@@ -1,39 +1,33 @@
 var simple_echarts = window.simple_echarts || {};
 
 simple_echarts.hist = new function() {
-    function get_label(unit) {
-        if(unit) {
-            if(unit instanceof Array) {
-                var labels = new Array();
-                for(var i = 0; i < unit.length; i++) {
-                    labels.push('{value}' + unit[i]);
-                }
-                return labels;
-            }
-            return '{value}' + unit;
-        } else {
-            return '{value}';
-        }
-    }
-
-    // 用法:
-    // 功能: 绘制直方图, 可绘制多组
-    // @param data: data形似{'x': ['1月', '2月' ...], 'y': [[2.0, 4.9 ...], ...]}的数据, x表示横轴分类, y表示数据数组, 每个元素对应一组直方图.
-    // @param legends: 图例, 每组直方图对应一个图例;
-    // @param options: 字典类型, 可选项
-    // { title: 标题, subtitle: 字标题, xunit: x轴单位, yunit: y轴单位, stack: 是否层叠, markLine: 是否输出平均线, markPoint: 是否输出最大值, 最小值点 }
-    this.histOption = function(data, legends, options) {
+    /**
+     * 功能: 绘制直方图, 可绘制多组
+     * @param xdata: ['1月', '2月', ...]  横轴分类数组
+     * @param ydata: [[2.0, 4.9, ...]...] 多维数组, 每个元素代表一组y值数组
+     * @param legends: 图例, 每组直方图对应一个图例;
+     * @param options: 字典类型, 可选项
+         {
+            title: string|标题,
+            subtitle: string|字标题,
+            xunit: string|x轴单位,
+            yunit: string|y轴单位,
+            stack: boolean|是否层叠, 默认false
+            markLine: boolean|是否输出平均线, 默认true
+            markPoint: boolean|是否输出最大值, 最小值点, 默认true
+         }
+     */
+    this.histOption = function(xdata, ydata, legends, options) {
         options = options == null ? {} : options;
-        xlabel = get_label(options.xunit);
-        ylabel = get_label(options.yunit);
-        stack = options.stack == null ? false : options.stack;
-        markLine = options.markLine == null ? true: options.markLine;
-        markPoint = options.markPoint == null ? true: options.markPoint;
+        var xlabel = get_label(options.xunit);
+        var ylabel = get_label(options.yunit);
+        var stack = null_default(options.stack, false);
+        var markLine = null_default(options.markLine, true);
+        var markPoint = null_default(options.markPoint, true);
+        var title = null_default(options.title, '');
+        var subtitle = null_default(options.subtitle, '');
 
-        title = options.title == null ? '' : options.title;
-        subtitle = options.subtitle == null ? '' : options.subtitle;
-
-        option = {
+        var option = {
             title : {
                 text: title,
                 subtext: subtitle
@@ -58,7 +52,7 @@ simple_echarts.hist = new function() {
             xAxis : [
                 {
                     type : 'category',
-                    data : data['x'],
+                    data : xdata,
                     axisLabel: {
                         formatter: xlabel,
                     }
@@ -75,11 +69,11 @@ simple_echarts.hist = new function() {
             series : []
         };
 
-        for(i = 0; i < data['y'].length; i++) {
-            serial_option = {
+        for(var i = 0; i < ydata.length; i++) {
+            var serial_option = {
                 name: legends[i],
                 type: 'bar',
-                data: data['y'][i],
+                data: ydata[i],
                 itemStyle: {
                     normal: {
                         label: {
@@ -105,7 +99,7 @@ simple_echarts.hist = new function() {
                     ]
                 };
             }
-            if(data['y'].length == 1) {
+            if(ydata.length == 1) {
                 serial_option.itemStyle.normal.color = function(params) {
                     // build a color map as your need.
                     var colorList = [
@@ -124,21 +118,28 @@ simple_echarts.hist = new function() {
         return option;
     }
 
-    // 功能: 绘制带2个纵坐标轴的直方图
-    // @param data: data形似{'x': ['1月', '2月' ...], 'y': [[2.0, 4.9 ...], ...]}的数据, x表示横轴分类, y表示数据数组, 每个元素对应一组直方图.
-    // @param legends: 图例, 每组直方图对应一个图例;
-    // @param options: 字典类型, 可选项
-    // {title: 标题, subtitle: 子标题, xunit: x轴单位, yunit: y轴单位}
-    this.histAxisOption = function(data, legends, options) {
+    /**
+     * 功能: 绘制带2个纵坐标轴的直方图
+     * @param xdata: ['1月', '2月', ...]  横轴分类数组
+     * @param ydata: [[2.0, 4.9, ...], [2.0, 4.9, ...]] 二维数组, 代表2组直方图, 第一个直方图使用左边的y轴, 第二个使用右边y轴
+     * @param legends: 图例, 每组直方图对应一个图例;
+     * @param options: 字典类型, 可选项
+     * {
+     *      title: string|标题,
+     *      subtitle: string|子标题,
+     *      xunit: string|x轴单位,
+     *      yunit: array|y轴单位, 包含2个字符串元素的数组, 分别对应第一个和第二个数值单位
+     * }
+     */
+    this.histAxisOption = function(xdata, ydata, legends, options) {
         options = options == null ? {} : options;
-        xlabel = get_label(options.xunit);
-        yunit = options.yunit == null ? ['', ''] : options.yunit;
-        ylabel = get_label(options.yunit);
+        var xlabel = get_label(options.xunit);
+        var yunit = null_default(options.yunit, ['', '']);
+        var ylabel = get_label(yunit);
+        var title = null_default(options.title, '');
+        var subtitle = null_default(options.subtitle, '');
 
-        title = options.title == null ? '' : options.title;
-        subtitle = options.subtitle == null ? '' : options.subtitle;
-
-        option = {
+        var option = {
             title : {
                 text: title,
                 subtext: subtitle
@@ -163,7 +164,7 @@ simple_echarts.hist = new function() {
             xAxis : [
                 {
                     type : 'category',
-                    data : data['x'],
+                    data : xdata,
                     axisLabel: {
                         formatter: xlabel,
                     }
@@ -186,11 +187,11 @@ simple_echarts.hist = new function() {
             series : []
         };
 
-        for(i = 0; i < 2; i++) {
-            serial_option = {
+        for(var i = 0; i < 2; i++) {
+            var serial_option = {
                 name: legends[i],
                 type: 'bar',
-                data: data['y'][i],
+                data: ydata[i],
                 yAxisIndex: i,
                 markPoint: {
                         data : [

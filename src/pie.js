@@ -2,16 +2,29 @@ var simple_echarts = window.simple_echarts || {};
 
 simple_echarts.pie = new function() {
     function pie_data(data, legends) {
-        pdata = [];
-        for(i = 0; i < data.length; i++) {
+        var pdata = [];
+        for(var i = 0; i < data.length; i++) {
             pdata.push({'name': legends[i], 'value': data[i]});
         }
         return pdata;
     }
 
+    /**
+     * 绘制饼图
+     * @param data: [10, 20, ...] 数值数组
+     * @param legends: 每个数值对应的图例名称
+     * @param options: 可选项
+     * {
+     *      title: string|标题,
+     *      subtitle: string|子标题,
+     * }
+     */
     // 用法: data为值数组, legends为对应的标签数组
-    this.pieOption = function(data, legends, title, subtitle) {
-        option = {
+    this.pieOption = function(data, legends, options) {
+        options = options || {};
+        var title = null_default(options.title, '');
+        var subtitle = null_default(options.subtitle, '');
+        var option = {
             title : {
                 text: title,
                 subtext: subtitle,
@@ -78,15 +91,22 @@ simple_echarts.pie = new function() {
         return ycenters;
     }
 
-    // 用法:
-    // 功能: 绘制环形图, 可绘制多张环形图
-    // @param data: [[1, 2, 3], [4, 5, 6]]每张图对应一个元素, 每个元素可包含多个值;
-    // @param legends: 图例数组;
-    // @param labels: 数组形式与data一致, 表示每个值对应的标签;
-    // @param options: 字典类型, 额外选项, 可选项包括:
-    // {title: 标题, subtitle: 副标题, xcenters: 图中心x轴坐标数组, ycenters: 图中心y轴坐标数组, radius: 半径数组}
+    /**
+     * 绘制环形图, 可绘制多张
+     * @param data: [[1, 2, 3], [4, 5, 6]]每张图对应一个元素, 每个元素可包含多个值;
+     * @param legends: ['春', '夏']图例数组
+     * @param labels: [['凉鞋', '高跟', '低跟'], ['凉鞋', '高跟', '低跟']]数组形式与data一致, 表示每个值对应的标签;
+     * @param options: 可选项
+     * {
+     *      title: string|标题,
+     *      subtitle: string|子标题,
+     *      xcenters: array|各环形图中心x轴坐标数组,
+     *      ycenters: array|各环形图中心y轴坐标数组,
+     *      radius: array|环形图半径数组, 第一个值为内径, 第二个值为外径,
+     * }
+     */
     this.ringOption = function(data, legends, labels, options) {
-        options = options == null ? {} : options;
+        options = options || {};
         if(options.radius == null) {
             options.radius = ['40%', '55%'];
         }
@@ -99,7 +119,7 @@ simple_echarts.pie = new function() {
             options.ycenters = default_ycenters(data.length);
         }
 
-        option = {
+        var option = {
             tooltip : {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -154,6 +174,16 @@ simple_echarts.pie = new function() {
         return option;
     };
 
+    /**
+     * 绘制维恩图
+     * @param data: [30, 50, 10] 数值数组, 第一个和第二个值为两类数值, 第3个为两类重合度数值
+     * @param labels: ['线上', '线下', '重合'] 标签数组
+     * @param options:
+     * {
+     *      title: string|标题,
+     *      subtitle: string|子标题,
+     * }
+     */
     this.vennOption = function(data, labels, options) {
         options = options == null ? {} : options;
         option = {
@@ -208,7 +238,7 @@ simple_echarts.pie = new function() {
         if(options.title) {
             option.title = {
                 text: options.title,
-                subtext: options.subtitle == null ? '' : options.subtitle,
+                subtext: null_default(options.subtitle, ''),
             }
         }
         return option;
