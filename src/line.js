@@ -121,7 +121,7 @@ simple_echarts.line = new function() {
             };
         }
         return option;
-    }
+    };
 
 
     /**
@@ -197,5 +197,5 @@ simple_echarts.line = new function() {
             };
         }
         return option;
-    }
+    };
 };

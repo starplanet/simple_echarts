@@ -2,7 +2,7 @@ var simple_echarts = window.simple_echarts || {};
 
 simple_echarts.map = new function() {
     function get_max_value(cities) {
-        max_val = 0;
+        var max_val = 0;
         for(var i = 0; i < cities.length; i++) {
             if(cities[i].value > max_val) {
                 max_val = cities[i].value;
@@ -126,7 +126,7 @@ simple_echarts.map = new function() {
             ]
         };
         return option;
-    }
+    };
 
     function timeline_option() {
         this.option = {
@@ -174,6 +174,6 @@ simple_echarts.map = new function() {
             }
             return option.option;
         }
-    }
+    };
 };
 

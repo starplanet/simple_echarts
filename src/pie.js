@@ -19,7 +19,6 @@ simple_echarts.pie = new function() {
      *      subtitle: string|子标题,
      * }
      */
-    // 用法: data为值数组, legends为对应的标签数组
     this.pieOption = function(data, legends, options) {
         options = options || {};
         var title = null_default(options.title, '');
@@ -159,7 +158,7 @@ simple_echarts.pie = new function() {
                 text: options.title,
                 subtext: options.subtitle == null ? '' : options.subtitle,
                 x: 'center'
-            }
+            };
         }
         for(var i = 0; i < data.length; i++) {
             var serial_option = {
@@ -167,7 +166,7 @@ simple_echarts.pie = new function() {
                 radius: options.radius,
                 center: [options.xcenters[i], options.ycenters[i]],
                 data: pie_data(data[i], labels[i])
-            }
+            };
             option.series.push(serial_option);
         }
         console.log(option);
@@ -185,8 +184,8 @@ simple_echarts.pie = new function() {
      * }
      */
     this.vennOption = function(data, labels, options) {
-        options = options == null ? {} : options;
-        option = {
+        options = options || {};
+        var option = {
             tooltip : {
                 trigger: 'item',
                 formatter: "{b}: {c}"
@@ -239,7 +238,7 @@ simple_echarts.pie = new function() {
             option.title = {
                 text: options.title,
                 subtext: null_default(options.subtitle, ''),
-            }
+            };
         }
         return option;
     };

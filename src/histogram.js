@@ -116,7 +116,7 @@ simple_echarts.hist = new function() {
             option.series.push(serial_option);
         }
         return option;
-    }
+    };
 
     /**
      * 功能: 绘制带2个纵坐标轴的直方图
@@ -217,5 +217,5 @@ simple_echarts.hist = new function() {
             option.series.push(serial_option);
         }
         return option;
-    }
+    };
 };

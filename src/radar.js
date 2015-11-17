@@ -82,7 +82,7 @@ simple_echarts.radar = new function() {
     }
 
     function default_xcenters(count) {
-        var xcenters = []
+        var xcenters = [];
         for(var i = 0; i < count; i++) {
             xcenters.push((i + 1) / (count + 1) * 100 + '%');
         }
@@ -97,14 +97,6 @@ simple_echarts.radar = new function() {
         return centers;
     }
 
-    // 功能: 绘制多雷达图
-    // 用法:
-    // data: [[1, 2, 3], [[1, 2, 3], [2, 3, 4]] ...]最多三维数组, 每个元素代表一张雷达图, 每张雷达图可以绘制多个曲线
-    // labels: ['颜色', ['线上', '线下']]数组结构与data一致, 表示每个数据曲线的标签
-    // indicator: [['红', '黄', '蓝'], ['喜欢', '不喜欢', '中性']...]每张雷达图对应一个indicator, 只是每个方向的标签
-    // max_scales: [['5', '5', '5'], ['3', '3', '3']]每张雷达图每个方向需设置一个最大范围
-    // centers: [['50%', '50%'], ['50%', '50']]每张雷达图中心点位置坐标x, y
-    // radius: '50%'或200 雷达图半径
     /**
      * 绘制多雷达图
      * @param data: [[1, 2, 3], [[1, 2, 3], [2, 3, 4]] ...]最多三维数组, 每个元素代表一张雷达图, 每张雷达图可以绘制多个曲线
@@ -166,10 +158,10 @@ simple_echarts.radar = new function() {
             };
             if(data[i][0] instanceof Array) {
                 for(var j = 0; j < data[i].length; j++) {
-                    serial_option.data.push({'value': data[i][j], 'name': labels[i][j]});
+                    serial_option.data.push({'value': data[i][j], 'name': legends[i][j]});
                 }
             } else {
-                serial_option.data.push({'value': data[i], 'name': labels[i]});
+                serial_option.data.push({'value': data[i], 'name': legends[i]});
             }
             option.series.push(serial_option);
         }
