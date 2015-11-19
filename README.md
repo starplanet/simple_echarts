@@ -11,9 +11,10 @@
 
 首先在引入echarts后, 将simple_echarts.min.js引入到<head>标签中:
 
+```html
 <script src='echarts-all.js'></script>
 <script src='simple_echarts.min.js'></script>
-
+```
 
 ### 绘制饼图
 
