@@ -15,7 +15,7 @@
 <script src='simple_echarts.min.js'></script>
 ```
 
-### 绘制饼图
+### 饼图
 <img src="example/img/pie.png"/>
 
 ### 雷达图
