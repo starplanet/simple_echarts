@@ -25,7 +25,7 @@
 <img src="example/img/line.png"/>
 
 ### 直方图
-<img src="example/img/histogram.ong"/>
+<img src="example/img/histogram.png"/>
 
 ### 地图
 <img src="example/img/map.png"/>
