@@ -10,7 +10,6 @@
 ###  文件引入
 
 首先在引入echarts后, 将simple_echarts.min.js引入到<head>标签中:
-
 ```html
 <script src='echarts-all.js'></script>
 <script src='simple_echarts.min.js'></script>
@@ -20,7 +19,7 @@
 
 `simple_echarts.pie.pieOption(data, legends, options)`
 
-<iframe src='example/pie.html></iframe>
+<img src="example/pie.png"/>
 
 
 
