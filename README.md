@@ -16,7 +16,19 @@
 ```
 
 ### 绘制饼图
-
-`simple_echarts.pie.pieOption(data, legends, options)`
-
 <img src="example/img/pie.png"/>
+
+### 雷达图
+<img src="example/img/radar.png"/>
+
+### 折线图
+<img src="example/img/line.png"/>
+
+### 直方图
+<img src="example/img/histogram.ong"/>
+
+### 地图
+<img src="example/img/map.png"/>
+
+### 字符云
+<img src="example/img/wcloud.png"/>
