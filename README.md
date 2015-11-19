@@ -19,10 +19,4 @@
 
 `simple_echarts.pie.pieOption(data, legends, options)`
 
-<img src="example/pie.png"/>
-
-
-
-
-
-
+<img src="example/img/pie.png"/>
