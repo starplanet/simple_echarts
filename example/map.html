@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试map.js</title>
+    <script src="../bower_components/echarts/build/dist/echarts-all.js"></script>
+    <script src="../src/base.js"></script>
+    <script src="../src/map.js"></script>
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<body style="width:80%; margin: auto">
+<div style="border-bottom: solid 1px">
+    <h2>绘制带时间轴的地图</h2>
+    <div id="yearly_amount_province" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var yearlyProvinceChart = echarts.init(document.getElementById('yearly_amount_province'));
+var option = simple_echarts.map.mapOption({pros: stores_data['pros']}, geos, stores_data['dates'],
+        {range: [233, 529924], title: stores_data['title']});
+yearlyProvinceChart.setOption(option);
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制带时间轴的地图</h2>
+    <div id="yearly_amount_city" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var yearlyCityChart = echarts.init(document.getElementById('yearly_amount_city'));
+var option = simple_echarts.map.mapOption({cities: stores_data['cities'], top5: stores_data['top5s']}, geos,
+        stores_data['dates'], {range: [1, 239136], title: stores_data['title']});
+yearlyCityChart.setOption(option);
+</pre>
+</div>
+<script>
+    $.getJSON('/simple_echarts/example/data/geo.json', function(data) {
+        var geos = data;
+        $.getJSON('/simple_echarts/example/data/yearly_amount.json', function(data) {
+            var stores_data = data;
+            var yearlyProvinceChart = echarts.init(document.getElementById('yearly_amount_province'));
+            var option = simple_echarts.map.mapOption({pros: stores_data['pros']}, geos, stores_data['dates'],
+                    {range: [233, 529924], title: stores_data['title']});
+            yearlyProvinceChart.setOption(option);
+            simple_echarts.resize(yearlyProvinceChart);
+
+            var yearlyCityChart = echarts.init(document.getElementById('yearly_amount_city'));
+            var option = simple_echarts.map.mapOption({cities: stores_data['cities'], top5: stores_data['top5s']}, geos,
+                    stores_data['dates'], {range: [1, 239136], title: stores_data['title']});
+            yearlyCityChart.setOption(option);
+            simple_echarts.resize(yearlyCityChart);
+        });
+    });
+</script>
+</body>
+</html>

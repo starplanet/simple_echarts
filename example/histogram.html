@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试histogram.js</title>
+    <script src="../bower_components/echarts/build/dist/echarts-all.js"></script>
+    <script src="../src/base.js"></script>
+    <script src="../src/histogram.js"></script>
+</head>
+<body style="width:80%; margin: auto">
+<div style="border-bottom: solid 1px">
+    <h2>绘制直方图</h2>
+    <div id="frequency" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var freqChart = echarts.init(document.getElementById('frequency'));
+freqChart.setOption(simple_echarts.hist.histOption(['1次', '2次', '3次及以上'], [[71.96,19.86,8.18], [86.79,11.32,1.89]],
+        ['A类店', 'B类店']));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制带2个坐标轴的直方图</h2>
+    <div id="price_line" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var priceChart = echarts.init(document.getElementById('price_line'));
+priceChart.setOption(simple_echarts.hist.histAxisOption(['A','B','C','D','E'],
+        [[848.28,721.17,641.22,545.86,516.71], [425,520,292,145,73]],
+        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年'}));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制直方图嵌饼图</h2>
+    <div id="recency" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var recencyChart = echarts.init(document.getElementById('recency'));
+recencyChart.setOption(simple_echarts.hist.histPieOption(['1个月内', '1-3个月内', '3-6个月内', '6-12个月内', '大于1年'],
+        [[29016, 53460, 65024, 131120, 168471]], ['近度分布'], {'pie_center': ['25%', 120], markLine: false,
+            'title': '购买客户的近度分布', subtitle: '2015年'}));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制多维条形图</h2>
+    <div id="heal_season" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var healSeasonChart = echarts.init(document.getElementById('heal_season'));
+healSeasonChart.setOption(simple_echarts.hist.multiBarOption(['彩电','冰箱','洗衣机','热水器','空调'],
+            [[7.19,26.66,17.88,25.05,23.22], [5.07,31.85,18.36,22.89,21.83], [3.98,22.90,23.63,26.66,22.84], [0.90,23.93,29.74,25.36,20.06]],
+        ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 300, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年'}));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制条形图</h2>
+    <div id="vip_fav_workday" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var vipFavWorkdayChart = echarts.init(document.getElementById('vip_fav_workday'));
+vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.73], [85, 15]],
+        ['周末', '工作日'], {'title': '人群在不同时间段对A,B事物的偏好', subtitle: '2015年'}));
+</pre>
+</div>
+<script>
+    var freqChart = echarts.init(document.getElementById('frequency'));
+    freqChart.setOption(simple_echarts.hist.histOption(['1次', '2次', '3次及以上'], [[71.96,19.86,8.18], [86.79,11.32,1.89]],
+            ['A类店', 'B类店'], {'title': '不同店铺类型客户购买次数分布', subtitle: '2015年'}));
+    simple_echarts.resize(freqChart);
+
+    var priceChart = echarts.init(document.getElementById('price_line'));
+    priceChart.setOption(simple_echarts.hist.histAxisOption(['A','B','C','D','E'],
+        [[848.28,721.17,641.22,545.86,516.71], [425,520,292,145,73]],
+        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年'}));
+    simple_echarts.resize(priceChart);
+
+    var recencyChart = echarts.init(document.getElementById('recency'));
+    recencyChart.setOption(simple_echarts.hist.histPieOption(['1个月内', '1-3个月内', '3-6个月内', '6-12个月内', '大于1年'],
+            [[29016, 53460, 65024, 131120, 168471]], ['近度分布'], {'pie_center': ['25%', 120], markLine: false,
+                'title': '购买客户的近度分布', subtitle: '2015年'}));
+    simple_echarts.resize(recencyChart);
+
+    var healSeasonChart = echarts.init(document.getElementById('heal_season'));
+    healSeasonChart.setOption(simple_echarts.hist.multiBarOption(['彩电','冰箱','洗衣机','热水器','空调'],
+                [[7.19,26.66,17.88,25.05,23.22], [5.07,31.85,18.36,22.89,21.83], [3.98,22.90,23.63,26.66,22.84], [0.90,23.93,29.74,25.36,20.06]],
+            ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 300, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年'}));
+    simple_echarts.resize(healSeasonChart);
+
+    var vipFavWorkdayChart = echarts.init(document.getElementById('vip_fav_workday'));
+    vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.73], [85, 15]],
+            ['周末', '工作日'], {'title': '人群在不同时间段对A,B事物的偏好', subtitle: '2015年'}));
+    simple_echarts.resize(vipFavWorkdayChart);
+</script>
+</body>
+</html>

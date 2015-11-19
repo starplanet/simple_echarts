@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试wcloud.js</title>
+    <script src="../bower_components/echarts/build/dist/echarts-all.js"></script>
+    <script src="../src/base.js"></script>
+    <script src="../src/wcloud.js"></script>
+</head>
+<body style="width:80%; margin: auto">
+<div style="border-bottom: solid 1px">
+    <h2>绘制字符云</h2>
+    <div id="shoe_tags" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+wcloudChart.setOption(simple_echarts.wcloud.wcloudOption(['休闲', '正装', '时尚', '凉鞋',
+    '鱼嘴', '棉鞋', '长靴', '短靴', '单鞋', '超高跟', '高跟', '"中跟', '低跟', '平跟', '尖头'],
+        [50, 60, 40, 60, 30, 70, 10], {rotation: [0, 45, 90, -45], size: ['90%', '90%']}));
+</pre>
+</div>
+<script>
+    var wcloudChart = echarts.init(document.getElementById('shoe_tags'));
+    wcloudChart.setOption(simple_echarts.wcloud.wcloudOption(['休闲', '正装', '时尚', '凉鞋',
+        '鱼嘴', '棉鞋', '长靴', '短靴', '单鞋', '超高跟', '高跟', '"中跟', '低跟', '平跟', '尖头'],
+            [50, 60, 40, 60, 30, 70, 10], {rotation: [0, 45, 90, -45], size: ['90%', '90%']}));
+    simple_echarts.resize(wcloudChart);
+</script>
+</body>
+</html>

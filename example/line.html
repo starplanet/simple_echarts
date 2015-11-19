@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试line.js</title>
+    <script src="../bower_components/echarts/build/dist/echarts-all.js"></script>
+    <script src="../src/base.js"></script>
+    <script src="../src/line.js"></script>
+</head>
+<body style="width:80%; margin: auto">
+<div style="border-bottom: solid 1px">
+    <h2>绘制单条折线图</h2>
+    <div id="first_try" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var firstTryChart = echarts.init(document.getElementById('first_try'));
+firstTryChart.setOption(simple_echarts.line.singleLineOption([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        [522,1165,2487,3855,4647,5089,5578,5998,7063,8244,9495,10275,10832,11390,11929,12436,13606,14846,15679,16276],
+        {'title': '第一次购买时间客户累计分布', 'subtitle': '2015年'}
+));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制多条折线图</h2>
+    <div id="discount" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var discountChart = echarts.init(document.getElementById('discount'));
+discountChart.setOption(simple_echarts.line.linesOption([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        [[1.02, 0.19, 1.35, 6.36, 13.67, 18.65, 22.76, 10.71, 5.81, 3.23, 16.25],
+            [0.05, 0.38, 2.05, 9.49, 21.18, 22.86, 17.97, 8.21, 4.22, 2.9, 10.68],
+            [0.01, 0.31, 2.09, 7.43, 13.51, 18.76, 21.03, 10.38, 5.88, 3.55, 17.04],
+            [0.02, 0.29, 1.88, 11.05, 22.65, 23.9, 13.84, 4.29, 3.35, 3.47, 15.27]],
+        ['春', '夏', '秋', '冬'], {'title': '不同季节商品折扣分布', subtitle: '2015年'}));
+</pre>
+</div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制2条折线, 每条折线使用自己的纵坐标轴</h2>
+    <div id="vip_amount_line" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var vipAmountChart = echarts.init(document.getElementById('vip_amount_line'));
+vipAmountChart.setOption(simple_echarts.line.lineAxisOption([201307, 201308, 201309, 201310, 201311, 201312],
+        [[5062, 8905, 20918, 25443, 23920, 22535], [409, 424, 521, 708, 925, 961]],
+        ['销量', '单价'], {ylabel: ['双', '元'], legend_x: 'center', legend_orient: 'horizontal', legend_y: 'top'}));
+</pre>
+</div>
+<script>
+    var firstTryChart = echarts.init(document.getElementById('first_try'));
+    firstTryChart.setOption(simple_echarts.line.singleLineOption([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+            [522,1165,2487,3855,4647,5089,5578,5998,7063,8244,9495,10275,10832,11390,11929,12436,13606,14846,15679,16276],
+            {'title': '第一次购买时间客户累计分布', 'subtitle': '2015年'}
+    ));
+    simple_echarts.resize(firstTryChart);
+
+    var discountChart = echarts.init(document.getElementById('discount'));
+    discountChart.setOption(simple_echarts.line.linesOption([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            [[1.02, 0.19, 1.35, 6.36, 13.67, 18.65, 22.76, 10.71, 5.81, 3.23, 16.25],
+                [0.05, 0.38, 2.05, 9.49, 21.18, 22.86, 17.97, 8.21, 4.22, 2.9, 10.68],
+                [0.01, 0.31, 2.09, 7.43, 13.51, 18.76, 21.03, 10.38, 5.88, 3.55, 17.04],
+                [0.02, 0.29, 1.88, 11.05, 22.65, 23.9, 13.84, 4.29, 3.35, 3.47, 15.27]],
+            ['春', '夏', '秋', '冬'], {'title': '不同季节商品折扣分布', subtitle: '2015年'}));
+    simple_echarts.resize(discountChart);
+
+    var vipAmountChart = echarts.init(document.getElementById('vip_amount_line'));
+    vipAmountChart.setOption(simple_echarts.line.lineAxisOption([201307, 201308, 201309, 201310, 201311, 201312],
+            [[5062, 8905, 20918, 25443, 23920, 22535], [409, 424, 521, 708, 925, 961]],
+            ['销量', '单价'], {ylabel: ['双', '元'], legend_x: 'center', legend_orient: 'horizontal', legend_y: 'top'}));
+    simple_echarts.resize(vipAmountChart);
+</script>
+</body>
+</html>

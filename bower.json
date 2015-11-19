@@ -1,0 +1,24 @@
+{
+  "name": "simple_echarts",
+  "description": "simplify echarts usage.",
+  "main": "simple_echarts",
+  "authors": [
+    "zhangjinjie"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "echarts"
+  ],
+  "homepage": "https://github.com/starplanet/simple_echarts",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "echarts": "~2.2.7"
+  }
+}

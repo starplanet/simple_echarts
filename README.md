@@ -1,8 +1,28 @@
 # simple_echarts
-提供封装echarts各种图表option配置的函数库, 使绘图更简单.
+本库开发的目的是简化使用echarts绘制图表的过程, 将用户从echarts的option配置中解放出来, 使用户只用关心自己的数据, 其它
+就交给simple_echarts来完成.
 
-你是不是对一遍一遍编写图表optio感到厌烦? 
+它本质上是默认化配置常用图表的option配置, 使用户不用去关心它, 如果用户对默认设置不满意, 则可以使用函数接口的options进行
+少量自定义.
 
-你是不是经常抱怨"我需要做的只是提供数据, 为什么还要知道这么多option配置?"
+## 使用方法
 
-如果是, 那么这个库可能适合与您. 这个的库最终目的是实现: 用户只需要提供数据, 标题, 标签等选项, 根据绘制的图类型 调用相应的函数接口便能绘制常见的图形, 将你从一遍一遍编写optio中解放出来.
+###  文件引入
+
+首先在引入echarts后, 将simple_echarts.min.js引入到<head>标签中:
+
+<script src='echarts-all.js'></script>
+<script src='simple_echarts.min.js'></script>
+
+
+### 绘制饼图
+
+`simple_echarts.pie.pieOption(data, legends, options)`
+
+<iframe src='example/pie.html></iframe>
+
+
+
+
+
+
