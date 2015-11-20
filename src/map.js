@@ -52,7 +52,8 @@ var simple_echarts = window.simple_echarts || {};
          * @param geos: 地理坐标数组, { '海门': [121.15, 31.89], ...}
          * @param options: 可选项
          * {
-         *      range: array|[min, max], 数值范围
+         *      range: array|[min, max], 数值范围,
+         *      english: boolean|是否显示为英文地图, 默认为false
          * }
          */
         this.basicMapOption = function(data, geos, options) {
@@ -116,6 +117,46 @@ var simple_echarts = window.simple_echarts || {};
                     },
                 ]
             };
+            if(options.english) {
+                option.series[0].nameMap = {
+                    '北京': 'Beijing',
+                    '天津': 'Tianjing',
+                    '河北': 'Hebei',
+                    '山西': 'Shanxi',
+                    '宁夏': 'Ningxia',
+                    '陕西': 'Shaanxi',
+                    '河南': 'Henan',
+                    '湖北': 'Hubei',
+                    '安徽': 'Anhui',
+                    '江苏': 'Jiangsu',
+                    '山东': 'Shandong',
+                    '上海': 'Shanghai',
+                    '浙江': 'Zhejiang',
+                    '江西': 'Jiangxi',
+                    '福建': 'Fujian',
+                    '台湾': 'Taiwan',
+                    '南海诸岛': 'South China Sea',
+                    '广东': 'Guangdong',
+                    '广西': 'Guangxi',
+                    '海南': 'Hainan',
+                    '澳门': 'Macao',
+                    '香港': 'Hongkong',
+                    '云南': 'Yunnan',
+                    '贵州': 'Guizhou',
+                    '湖南': 'Hunan',
+                    '重庆': 'Chongqing',
+                    '四川': 'Sichuan',
+                    '新疆': 'Xingjiang',
+                    '西藏': 'Tibet',
+                    '青海': 'Qinghai',
+                    '甘肃': 'Gansu',
+                    '内蒙古': 'Neimenggu',
+                    '黑龙江': 'Heilongjiang',
+                    '吉林': 'Jilin',
+                    '辽宁': 'Liaoning', 
+                };
+            }
+
             if(data.pros) {
                 option.series[0].data = data.pros;
             }
@@ -225,8 +266,8 @@ var simple_echarts = window.simple_echarts || {};
             } else {
                 var option = new timeline_option();
                 for(var i = 0; i < dates.length; i++) {
-                    var basic_option = this.basicMapOption(get_data_by_index(data, i), geos,
-                        {range: options.range, title: options.title, name: dates[i]});
+                    options.name = dates[i];
+                    var basic_option = this.basicMapOption(get_data_by_index(data, i), geos, options);
                     option.append(dates[i], basic_option);
                 }
                 return option.option;

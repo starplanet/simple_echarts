@@ -1,4 +1,4 @@
-/*! simple_echarts - v0.0.0 - 2015-11-19
+/*! simple_echarts - v0.0.1 - 2015-11-20
 * Copyright (c) 2015 ; Licensed  */
 var simple_echarts = window.simple_echarts || {};
 
@@ -24,17 +24,17 @@ var simple_echarts = window.simple_echarts || {};
 
     $.set_common_option = function(chart_option, options) {
         chart_option.title = $.null_default(chart_option.title, {});
-        chart_option.title.text = $.null_default(chart_option.title.text, $.null_default(options.title, ''));
-        chart_option.title.subtext = $.null_default(chart_option.title.subtext,
-            $.null_default(options.subtitle, ''));
-        chart_option.title.x = $.null_default(chart_option.title.x, $.null_default(options.title_x, 'center'));
-        chart_option.title.y = $.null_default(chart_option.title.y, $.null_default(options.title_y, 'top'));
+        chart_option.title.text = $.null_default(options.title, $.null_default(chart_option.title.text, ''));
+        chart_option.title.subtext = $.null_default(options.subtitle,
+            $.null_default(chart_option.title.subtext, ''));
+        chart_option.title.x = $.null_default(options.title_x, $.null_default(chart_option.title.x, 'center'));
+        chart_option.title.y = $.null_default(options.title_y, $.null_default(chart_option.title.y, 'top'));
 
         if(chart_option.legend) {
-            chart_option.legend.orient = $.null_default(chart_option.legend.orient,
-                $.null_default(options.legend_orient, 'vertical'));
-            chart_option.legend.x = $.null_default(chart_option.legend.x, $.null_default(options.legend_x, 'left'));
-            chart_option.legend.y = $.null_default(chart_option.legend.y, $.null_default(options.legend_y, 'center'));
+            chart_option.legend.orient = $.null_default(options.legend_orient,
+                $.null_default(chart_option.legend.orient, 'horizontal'));
+            chart_option.legend.x = $.null_default(options.legend_x, $.null_default(chart_option.legend.x, 'left'));
+            chart_option.legend.y = $.null_default(options.legend_y, $.null_default(chart_option.legend.y, 'top'));
         }
         return chart_option;
     };
@@ -106,6 +106,7 @@ var simple_echarts = window.simple_echarts || {};
                         data : xdata,
                         axisLabel: {
                             formatter: xlabel,
+                            rotate: options.xaxislabel_rotate || 0,
                         }
                     }
                 ],
@@ -158,7 +159,7 @@ var simple_echarts = window.simple_echarts || {};
                             '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
                             '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
                         ];
-                        return colorList[params.dataIndex];
+                        return colorList[params.dataIndex % colorList.length];
                     };
                 }
                 if(stack) {
@@ -933,7 +934,8 @@ var simple_echarts = window.simple_echarts || {};
          * @param geos: 地理坐标数组, { '海门': [121.15, 31.89], ...}
          * @param options: 可选项
          * {
-         *      range: array|[min, max], 数值范围
+         *      range: array|[min, max], 数值范围,
+         *      english: boolean|是否显示为英文地图, 默认为false
          * }
          */
         this.basicMapOption = function(data, geos, options) {
@@ -997,6 +999,46 @@ var simple_echarts = window.simple_echarts || {};
                     },
                 ]
             };
+            if(options.english) {
+                option.series[0].nameMap = {
+                    '北京': 'Beijing',
+                    '天津': 'Tianjing',
+                    '河北': 'Hebei',
+                    '山西': 'Shanxi',
+                    '宁夏': 'Ningxia',
+                    '陕西': 'Shaanxi',
+                    '河南': 'Henan',
+                    '湖北': 'Hubei',
+                    '安徽': 'Anhui',
+                    '江苏': 'Jiangsu',
+                    '山东': 'Shandong',
+                    '上海': 'Shanghai',
+                    '浙江': 'Zhejiang',
+                    '江西': 'Jiangxi',
+                    '福建': 'Fujian',
+                    '台湾': 'Taiwan',
+                    '南海诸岛': 'South China Sea',
+                    '广东': 'Guangdong',
+                    '广西': 'Guangxi',
+                    '海南': 'Hainan',
+                    '澳门': 'Macao',
+                    '香港': 'Hongkong',
+                    '云南': 'Yunnan',
+                    '贵州': 'Guizhou',
+                    '湖南': 'Hunan',
+                    '重庆': 'Chongqing',
+                    '四川': 'Sichuan',
+                    '新疆': 'Xingjiang',
+                    '西藏': 'Tibet',
+                    '青海': 'Qinghai',
+                    '甘肃': 'Gansu',
+                    '内蒙古': 'Neimenggu',
+                    '黑龙江': 'Heilongjiang',
+                    '吉林': 'Jilin',
+                    '辽宁': 'Liaoning', 
+                };
+            }
+
             if(data.pros) {
                 option.series[0].data = data.pros;
             }
@@ -1106,8 +1148,8 @@ var simple_echarts = window.simple_echarts || {};
             } else {
                 var option = new timeline_option();
                 for(var i = 0; i < dates.length; i++) {
-                    var basic_option = this.basicMapOption(get_data_by_index(data, i), geos,
-                        {range: options.range, title: options.title, name: dates[i]});
+                    options.name = dates[i];
+                    var basic_option = this.basicMapOption(get_data_by_index(data, i), geos, options);
                     option.append(dates[i], basic_option);
                 }
                 return option.option;
@@ -1353,9 +1395,13 @@ var simple_echarts = window.simple_echarts || {};
          * @param indicator: ['英语', '数学', '语文', '理综'] 雷达图每个方向上标签
          * @param max_scale: [10, 10, 10, 10] 雷达图每个方向上的最大值
          * @param options: 可选项
+         * {
+         *      radius: string|雷达图半径大小, 百分数或像素大小,
+         * }
          */
         this.radarOption = function(data, legends, indicator, max_scale, options) {
             options = options || {};
+            var radius = null_default(options.radius, '60%');
             var option = {
                 tooltip : {
                     trigger: 'axis'
@@ -1375,6 +1421,7 @@ var simple_echarts = window.simple_echarts || {};
                 polar : [
                     {
                         indicator : get_indicator(indicator, max_scale),
+                        radius: radius,
                     }
                 ],
                 calculable : true,
@@ -1459,7 +1506,6 @@ var simple_echarts = window.simple_echarts || {};
                     trigger: 'axis'
                 },
                 legend: {
-                    x : 'center',
                     data: new_legends,
                 },
                 toolbox: {
