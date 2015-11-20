@@ -7,12 +7,17 @@
 
 ## 使用方法
 
+### 安装
+```shell
+bower install git@github.com:starplanet/simple_echarts.git
+```
+
 ###  文件引入
 
 首先在引入echarts后, 将simple_echarts.min.js引入到<head>标签中:
 ```html
-<script src='echarts-all.js'></script>
-<script src='simple_echarts.min.js'></script>
+<script src='bower_component/echarts/build/dist/echarts-all.js'></script>
+<script src='bower_component/simple_echarts/dist/simple_echarts.min.js'></script>
 ```
 
 ### 饼图

@@ -1,16 +1,17 @@
 {
   "name": "simple_echarts",
   "description": "simplify echarts usage.",
-  "main": "simple_echarts",
+  "version": "0.0.1",
   "authors": [
-    "zhangjinjie"
+    {"name": "zhangjinjie", "email": "zhangjinjie@yimian.com.cn"}
   ],
+  "main": ["dist/simple_echarts.min.js", "dist/simple_echarts.js"],
   "license": "MIT",
   "keywords": [
-    "echarts"
+    "echarts",
+    "simple"
   ],
   "homepage": "https://github.com/starplanet/simple_echarts",
-  "moduleType": [],
   "ignore": [
     "**/.*",
     "node_modules",
@@ -20,5 +21,6 @@
   ],
   "dependencies": {
     "echarts": "~2.2.7"
-  }
+  },
+  "license": "MIT"
 }
