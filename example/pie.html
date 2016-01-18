@@ -37,6 +37,15 @@ var vipOverlapChart = echarts.init(document.getElementById('vip_overlap'));
 vipOverlapChart.setOption(simple_echarts.pie.vennOption([808338, 748792, 23943], ['线下VIP用户', '线上用户', '公共'], {title: '线上线下用户重合度', subtitle: '2015年'}));
 </pre>
 </div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制嵌套饼图</h2>
+    <div id="marketting" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var markettingChart = echarts.init(document.getElementById('marketting'));
+markettingChart.setOption(simple_echarts.pie.pieEmbeddedOption([[335, 679, 1548], [335, 310, 234, 135, 1048, 251, 147, 102]], ['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他'], [['直达', '营销广告', '搜索引擎'], ['直达', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']], {'name': '访问来源'}));
+</pre>
+</div>
 <script>
     var salesChart = echarts.init(document.getElementById('brand_sales_pie'));
     salesChart.setOption(simple_echarts.pie.pieOption([3089930773, 771758844, 640399126, 529410370], ["A", "B", "C", "D"],
@@ -51,6 +60,10 @@ vipOverlapChart.setOption(simple_echarts.pie.vennOption([808338, 748792, 23943],
     var vipOverlapChart = echarts.init(document.getElementById('vip_overlap'));
     vipOverlapChart.setOption(simple_echarts.pie.vennOption([808338, 748792, 23943], ['线下VIP用户', '线上用户', '公共'], {title: '线上线下用户重合度', subtitle: '2015年'}));
     simple_echarts.resize(vipOverlapChart);
+
+    var markettingChart = echarts.init(document.getElementById('marketting'));
+    markettingChart.setOption(simple_echarts.pie.pieEmbeddedOption([[335, 679, 1548], [335, 310, 234, 135, 1048, 251, 147, 102]], ['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他'], [['直达', '营销广告', '搜索引擎'], ['直达', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']], {'name': '访问来源'}));
+    simple_echarts.resize(markettingChart);
 </script>
 </body>
 </html>

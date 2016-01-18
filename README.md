@@ -22,6 +22,7 @@ bower install git@github.com:starplanet/simple_echarts.git
 
 ### 饼图
 <img src="example/img/pie.png"/>
+<img src="example/img/pieembedded.png"/>
 
 ### 雷达图
 <img src="example/img/radar.png"/>

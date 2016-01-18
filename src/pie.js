@@ -209,5 +209,92 @@ var simple_echarts = window.simple_echarts || {};
             };
             return $.set_common_option(option, options);
         };
+
+        /**
+         * 绘制嵌套饼图
+         * @param data: [[1, 2, 3], [4, 5, 6]]每张图对应一个元素, 每个元素可包含多个值;
+         * @param legends: ['春', '夏']图例数组
+         * @param labels: [['凉鞋', '高跟', '低跟'], ['凉鞋', '高跟', '低跟']]数组形式与data一致, 表示每个值对应的标签;
+         * @param options: 可选项
+         * {
+         *      name: 数据来源名称
+         * }
+         */
+        this.pieEmbeddedOption = function(data, legends, labels, options) {
+            options = options || {};
+            var name = null_default(options.name, '');
+            var option = {
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    data:legends
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                series : [
+                    {
+                        name: name,
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: [0, 70],
+
+                        // for funnel
+                        x: '20%',
+                        width: '40%',
+                        funnelAlign: 'right',
+                        max: 1548,
+
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    position: 'inner'
+                                },
+                                labelLine: {
+                                    show: false
+                                }
+                            }
+                        },
+                        data: pie_data(data[0], labels[0])
+                    },
+                    {
+                        name: name,
+                        type: 'pie',
+                        radius: [100, 140],
+
+                        // for funnel
+                        x: '60%',
+                        width: '35%',
+                        funnelAlign: 'left',
+                        max: 1048,
+
+                        data: pie_data(data[1], labels[1])
+                    }
+                ]
+            };
+
+            return $.set_common_option(option, options);
+        };
     };
 })(simple_echarts);
