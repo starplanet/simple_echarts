@@ -2,6 +2,7 @@ var simple_echarts = window.simple_echarts || {};
 
 (function($) {
     $.map = new function() {
+        var $this = this;
         function get_max_value(cities) {
             var max_val = 0;
             for(var i = 0; i < cities.length; i++) {
@@ -56,7 +57,7 @@ var simple_echarts = window.simple_echarts || {};
          *      english: boolean|是否显示为英文地图, 默认为false
          * }
          */
-        this.basicMapOption = function(data, geos, options) {
+        $this.basicMapOption = function(data, geos, options) {
             options = options || {};
             var range = options.range || get_range(data);
             var symbol_size = null;
@@ -153,7 +154,7 @@ var simple_echarts = window.simple_echarts || {};
                     '内蒙古': 'Neimenggu',
                     '黑龙江': 'Heilongjiang',
                     '吉林': 'Jilin',
-                    '辽宁': 'Liaoning', 
+                    '辽宁': 'Liaoning',
                 };
             }
 
@@ -260,14 +261,14 @@ var simple_echarts = window.simple_echarts || {};
          *      range: array|[min, max], 数值范围
          * }
          */
-        this.mapOption = function(data, geos, dates, options) {
+        $this.mapOption = function(data, geos, dates, options) {
             if(!dates) {
-                return this.basicMapOption(data, geos, options);
+                return $this.basicMapOption(data, geos, options);
             } else {
                 var option = new timeline_option();
                 for(var i = 0; i < dates.length; i++) {
                     options.name = dates[i];
-                    var basic_option = this.basicMapOption(get_data_by_index(data, i), geos, options);
+                    var basic_option = $this.basicMapOption(get_data_by_index(data, i), geos, options);
                     option.append(dates[i], basic_option);
                 }
                 return option.option;
