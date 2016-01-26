@@ -18,6 +18,7 @@ var simple_echarts = window.simple_echarts || {};
             stack: boolean|是否层叠, 默认false
             markLine: boolean|是否输出平均线, 默认true
             markPoint: boolean|是否输出最大值, 最小值点, 默认true
+            colorList: array|颜色列表
          }
          */
         this.histOption = function(xdata, ydata, legends, options) {
@@ -27,6 +28,7 @@ var simple_echarts = window.simple_echarts || {};
             var stack = null_default(options.stack, false);
             var markLine = null_default(options.markLine, true);
             var markPoint = null_default(options.markPoint, true);
+            var colorList = null_default(options.colorList, null);
 
             var option = {
                 tooltip : {
@@ -103,11 +105,13 @@ var simple_echarts = window.simple_echarts || {};
                 if(ydata.length == 1) {
                     serial_option.itemStyle.normal.color = function(params) {
                         // build a color map as your need.
-                        var colorList = [
-                            '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
-                            '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
-                            '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
-                        ];
+                        if(!colorList) {
+                            colorList = [
+                                '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                            ];
+                        }
                         return colorList[params.dataIndex % colorList.length];
                     };
                 }
