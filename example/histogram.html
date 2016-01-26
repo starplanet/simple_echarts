@@ -26,7 +26,7 @@ freqChart.setOption(simple_echarts.hist.histOption(['1次', '2次', '3次及以�
 var priceChart = echarts.init(document.getElementById('price_line'));
 priceChart.setOption(simple_echarts.hist.histAxisOption(['A','B','C','D','E'],
         [[848.28,721.17,641.22,545.86,516.71], [425,520,292,145,73]],
-        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年'}));
+        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年', markLine: false}));
 </pre>
 </div>
 <div style="border-bottom: solid 1px">
@@ -48,7 +48,7 @@ recencyChart.setOption(simple_echarts.hist.histPieOption(['1个月内', '1-3个�
 var healSeasonChart = echarts.init(document.getElementById('heal_season'));
 healSeasonChart.setOption(simple_echarts.hist.multiBarOption(['彩电','冰箱','洗衣机','热水器','空调'],
             [[7.19,26.66,17.88,25.05,23.22], [5.07,31.85,18.36,22.89,21.83], [3.98,22.90,23.63,26.66,22.84], [0.90,23.93,29.74,25.36,20.06]],
-        ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 300, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年'}));
+        ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 300, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年', margin_x: 80}));
 </pre>
 </div>
 <div style="border-bottom: solid 1px">
@@ -70,7 +70,7 @@ vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.7
     var priceChart = echarts.init(document.getElementById('price_line'));
     priceChart.setOption(simple_echarts.hist.histAxisOption(['A','B','C','D','E'],
         [[848.28,721.17,641.22,545.86,516.71], [425,520,292,145,73]],
-        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年'}));
+        ['购买均价', '单店平均销量'], {ylabel: ['元', '双'], title: '不同级别店铺购买均价和单店平均销量对比', subtitle: '2015年', markLine: false}));
     simple_echarts.resize(priceChart);
 
     var recencyChart = echarts.init(document.getElementById('recency'));
@@ -82,7 +82,7 @@ vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.7
     var healSeasonChart = echarts.init(document.getElementById('heal_season'));
     healSeasonChart.setOption(simple_echarts.hist.multiBarOption(['彩电','冰箱','洗衣机','热水器','空调'],
                 [[7.19,26.66,17.88,25.05,23.22], [5.07,31.85,18.36,22.89,21.83], [3.98,22.90,23.63,26.66,22.84], [0.90,23.93,29.74,25.36,20.06]],
-            ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 300, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年'}));
+            ['海尔', 'TCL', '小天鹅', '格力'], {'legend_itemGap': 100, padding: 35, title: '不同品牌不同商品销售占比', subtitle: '2015年', margin_x: 80}));
     simple_echarts.resize(healSeasonChart);
 
     var vipFavWorkdayChart = echarts.init(document.getElementById('vip_fav_workday'));

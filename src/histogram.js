@@ -128,6 +128,8 @@ var simple_echarts = window.simple_echarts || {};
          * {
          *      xlabel: string|x轴标签,
          *      ylabel: array|y轴标签, 包含2个字符串元素的数组, 分别对应第一个和第二个数值单位
+         *      markLine: boolean|是否输出平均线, 默认true
+         *      markPoint: boolean|是否输出最大值, 最小值点, 默认true
          * }
          */
         this.histAxisOption = function(xdata, ydata, legends, options) {
@@ -135,7 +137,8 @@ var simple_echarts = window.simple_echarts || {};
             var xlabel = get_label(options.xlabel);
             var ylabel = null_default(options.ylabel, ['', '']);
             var ylabel = get_label(ylabel);
-
+            var markPoint = null_default(options.markPoint, true);
+            var markLine = null_default(options.markLine, true);
             var option = {
                 tooltip : {
                     trigger: 'axis'
@@ -189,12 +192,6 @@ var simple_echarts = window.simple_echarts || {};
                     type: 'bar',
                     data: ydata[i],
                     yAxisIndex: i,
-                    markPoint: {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
-                    },
                     itemStyle: {
                         normal: {
                             label: {
@@ -203,13 +200,23 @@ var simple_echarts = window.simple_echarts || {};
                                 formatter: '{b}\n{c}'
                             }
                         }
-                    },
-                    markLine : {
+                    }
+                };
+                if(markPoint) {
+                    serial_option.markPoint = {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    };
+                }
+                if(markLine) {
+                    serial_option.markLine = {
                         data : [
                             {type : 'average', name: '平均值'}
                         ]
-                    }
-                };
+                    };
+                }
                 option.series.push(serial_option);
             }
             return $.set_common_option(option, options);
@@ -365,13 +372,15 @@ var simple_echarts = window.simple_echarts || {};
          * @param options: 可选项
          * {
          *      legend_itemGap: integer|图例间隔, 默认120px,
-         *      legend_padding: integer|图例内边距, 默认100px
+         *      padding: integer|条形图内边距, 默认100,
+         *      margin_x: integer|y轴左边距
          * }
          */
         this.multiBarOption = function(xdata, ydata, legends, options) {
             options = options || {};
             var legend_itemGap = null_default(options.legend_itemGap, 120);
-            var padding = null_default(options.legend_padding, 100);
+            var padding = null_default(options.padding, 100);
+            var margin_x = null_default(options.margin_x, null);
 
             function invert_data(data) {
                 var res = [];
@@ -445,6 +454,9 @@ var simple_echarts = window.simple_echarts || {};
                 ],
                 series : []
             };
+            if(margin_x != null) {
+                option.grid.x = margin_x;
+            }
             for(var i = 0; i < ydata.length; i++) {
                 var serial_option = {
                     name: legends[i],
