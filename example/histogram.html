@@ -75,7 +75,7 @@ simple_echarts.resize(yearlyFreqChart);
 <script>
     var freqChart = echarts.init(document.getElementById('frequency'));
     freqChart.setOption(simple_echarts.hist.histOption(['1次', '2次', '3次及以上'], [[71.96,19.86,8.18], [86.79,11.32,1.89]],
-            ['A类店', 'B类店'], {'title': '不同店铺类型客户购买次数分布', subtitle: '2015年'}));
+            ['A类店', 'B类店'], {'title': '不同店铺类型客户购买次数分布', subtitle: '2015年', colorList: ['#998877', '#CCCCCC']}));
     simple_echarts.resize(freqChart);
 
     var priceChart = echarts.init(document.getElementById('price_line'));

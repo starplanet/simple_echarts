@@ -31,6 +31,7 @@ var simple_echarts = window.simple_echarts || {};
             var markPoint = null_default(options.markPoint, true);
             var colorList = null_default(options.colorList, null);
 
+            console.log(colorList);
             var option = {
                 tooltip : {
                     trigger: 'axis'
@@ -82,7 +83,7 @@ var simple_echarts = window.simple_echarts || {};
                         '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
                     ];
                 }
-                return colorList[params.dataIndex % colorList.length];
+                return colorList[params.seriesIndex % colorList.length];
             };
 
 
@@ -116,9 +117,7 @@ var simple_echarts = window.simple_echarts || {};
                         ]
                     };
                 }
-                if(ydata.length == 1) {
-                    serial_option.itemStyle.normal.color = color_callback;
-                }
+                serial_option.itemStyle.normal.color = color_callback;
                 if(stack) {
                     serial_option.stack = 'stack';
                 }
