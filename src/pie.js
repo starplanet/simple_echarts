@@ -2,6 +2,7 @@ var simple_echarts = window.simple_echarts || {};
 
 (function($) {
     $.pie = new function() {
+        var $this = this;
         var null_default = $.null_default;
         var get_label = $.get_label;
         console.assert(null_default !== undefined);
@@ -21,7 +22,7 @@ var simple_echarts = window.simple_echarts || {};
          * @param legends: 每个数值对应的图例名称
          * @param options: 可选项
          */
-        this.pieOption = function(data, legends, options) {
+        $this.pieOption = function(data, legends, options) {
             options = options || {};
             var option = {
                 tooltip : {
@@ -99,7 +100,7 @@ var simple_echarts = window.simple_echarts || {};
          *      radius: array|环形图半径数组, 第一个值为内径, 第二个值为外径,
          * }
          */
-        this.ringOption = function(data, legends, labels, options) {
+        $this.ringOption = function(data, legends, labels, options) {
             options = options || {};
             options.radius = null_default(options.radius, ['40%', '55%']);
             var xcenters = null_default(options.xcenters, default_xcenters(data.length));
@@ -156,7 +157,7 @@ var simple_echarts = window.simple_echarts || {};
          * @param labels: ['线上', '线下', '重合'] 标签数组
          * @param options: 可选项
          */
-        this.vennOption = function(data, labels, options) {
+        $this.vennOption = function(data, labels, options) {
             options = options || {};
             var option = {
                 tooltip : {
@@ -220,7 +221,7 @@ var simple_echarts = window.simple_echarts || {};
          *      name: 数据来源名称
          * }
          */
-        this.pieEmbeddedOption = function(data, legends, labels, options) {
+        $this.pieEmbeddedOption = function(data, legends, labels, options) {
             options = options || {};
             var name = null_default(options.name, '');
             var option = {
@@ -295,6 +296,50 @@ var simple_echarts = window.simple_echarts || {};
             };
 
             return $.set_common_option(option, options);
+        };
+
+        function timeline_option() {
+            this.option = {
+                timeline: {
+                    data: [
+                        // '2014-11-01', '2014-12-01', '2015-01-01'
+                    ],
+                    autoPlay: true,
+                    playInterval: 2000
+                },
+                options: []
+            };
+        }
+
+        timeline_option.prototype.append = function(date, option) {
+            this.option.timeline.data.push(date);
+            this.option.options.push(option);
+            return;
+        };
+
+        /**
+         * 绘制带时间轴的饼图
+         * @param data: [[10, 20, ...], [10, 20, ...]...] 数值数组
+         * @param legends: 每个数值对应的图例名称
+         * @param dates: dates无值时, data, legends与pieOption相同, dates有值时,data,legends为二维数组
+         * @param options: 可选项
+         */
+        $this.pieTimelineOption = function(datas, legends, dates, options) {
+            if(!dates) {
+                return $this.pieTimelineOption(datas, legends, options);
+            } else {
+                var option = new timeline_option();
+                for(var i = 0; i < dates.length; i++){
+                    options.name = dates[i];
+                    var tmp_legends = legends;
+                    if(legends[0] instanceof Array) {
+                        tmp_legends = legends[i];
+                    }
+                    var basic_option = $this.pieOption(datas[i], tmp_legends, options);
+                    option.append(dates[i], basic_option);
+                }
+                return option.option;
+            }
         };
     };
 })(simple_echarts);

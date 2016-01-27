@@ -2,6 +2,7 @@ var simple_echarts = window.simple_echarts || {};
 
 (function($) {
     $.hist = new function() {
+        var $this = this;
         var null_default = $.null_default;
         var get_label = $.get_label;
         console.assert(null_default !== undefined);
@@ -21,7 +22,7 @@ var simple_echarts = window.simple_echarts || {};
             colorList: array|颜色列表
          }
          */
-        this.histOption = function(xdata, ydata, legends, options) {
+        $this.histOption = function(xdata, ydata, legends, options) {
             options = null_default(options, {});
             var xlabel = get_label(options.xlabel);
             var ylabel = get_label(options.ylabel);
@@ -72,6 +73,19 @@ var simple_echarts = window.simple_echarts || {};
                 series : []
             };
 
+            var color_callback = function(params) {
+                // build a color map as your need.
+                if(!colorList) {
+                    colorList = [
+                        '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                        '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                        '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                    ];
+                }
+                return colorList[params.dataIndex % colorList.length];
+            };
+
+
             for(var i = 0; i < ydata.length; i++) {
                 var serial_option = {
                     name: legends[i],
@@ -103,17 +117,7 @@ var simple_echarts = window.simple_echarts || {};
                     };
                 }
                 if(ydata.length == 1) {
-                    serial_option.itemStyle.normal.color = function(params) {
-                        // build a color map as your need.
-                        if(!colorList) {
-                            colorList = [
-                                '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
-                                '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
-                                '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
-                            ];
-                        }
-                        return colorList[params.dataIndex % colorList.length];
-                    };
+                    serial_option.itemStyle.normal.color = color_callback;
                 }
                 if(stack) {
                     serial_option.stack = 'stack';
@@ -136,7 +140,7 @@ var simple_echarts = window.simple_echarts || {};
          *      markPoint: boolean|是否输出最大值, 最小值点, 默认true
          * }
          */
-        this.histAxisOption = function(xdata, ydata, legends, options) {
+        $this.histAxisOption = function(xdata, ydata, legends, options) {
             options = options == null ? {} : options;
             var xlabel = get_label(options.xlabel);
             var ylabel = null_default(options.ylabel, ['', '']);
@@ -241,7 +245,7 @@ var simple_echarts = window.simple_echarts || {};
          *      pie: object|{'data': array, 'label': []}对象, 用于自定义绘制饼图, 默认data取ydata[0], label取xdata
          * }
          */
-        this.histPieOption = function(xdata, ydata, legends, options) {
+        $this.histPieOption = function(xdata, ydata, legends, options) {
             function pie_data(data, legends) {
                 var pdata = [];
                 for(var i = 0; i < data.length; i++) {
@@ -380,7 +384,7 @@ var simple_echarts = window.simple_echarts || {};
          *      margin_x: integer|y轴左边距
          * }
          */
-        this.multiBarOption = function(xdata, ydata, legends, options) {
+        $this.multiBarOption = function(xdata, ydata, legends, options) {
             options = options || {};
             var legend_itemGap = null_default(options.legend_itemGap, 120);
             var padding = null_default(options.padding, 100);
@@ -489,7 +493,7 @@ var simple_echarts = window.simple_echarts || {};
          * @param legends: ['2014', '2015', ...] 图例数组, 每组条形图对应一个图例
          * @param options
          */
-        this.barOption = function(xdata, ydata, legends, options) {
+        $this.barOption = function(xdata, ydata, legends, options) {
             options = options || {};
             var option = {
                 tooltip : {
@@ -535,6 +539,64 @@ var simple_echarts = window.simple_echarts || {};
                 option.series.push(serial_option);
             }
             return $.set_common_option(option, options);
+        };
+
+        function timeline_option() {
+            this.option = {
+                timeline: {
+                    data: [
+                        // '2014-11-01', '2014-12-01', '2015-01-01'
+                    ],
+                    autoPlay: true,
+                    playInterval: 2000
+                },
+                options: []
+            };
+        }
+
+        timeline_option.prototype.append = function(date, option) {
+            this.option.timeline.data.push(date);
+            this.option.options.push(option);
+            return;
+        };
+
+        /**
+         * 功能: 绘制直方图, 可绘制多组
+         * @param xdatas: [['1月', '2月', ...], ['1月', '2月', ...]]  横轴分类数组
+         * @param ydatas: [[[2.0, 4.9, ...]...],[[2.0, 4.9, ...]...]] 多维数组, 每个元素代表一组y值数组
+         * @param legends: 图例, 每组直方图对应一个图例;
+         * @param dates: dates无值时, xdata, ydata与histOption相同; dates有值时, xdata为二维数组, 每个数组对应一个图形的x轴,
+         * ydatas为三维数组, 每个元素为一个图形的y轴数据, legends为二维数组, 每个对应一个图例.
+         * @param options: 字典类型, 可选项
+         {
+            xlabel: string|x轴标签,
+            ylabel: string|y轴标签,
+            stack: boolean|是否层叠, 默认false
+            markLine: boolean|是否输出平均线, 默认true
+            markPoint: boolean|是否输出最大值, 最小值点, 默认true
+            colorList: array|颜色列表
+         }
+         */
+        $this.histTimelineOption = function(xdatas, ydatas, legends, dates, options) {
+            if(!dates) {
+                return $this.histOption(xdatas, ydatas, legends, options);
+            } else {
+                var option = new timeline_option();
+                for(var i = 0; i < dates.length; i++) {
+                    options.name = dates[i];
+                    var tmp_legends = legends;
+                    var tmp_xdata = xdatas;
+                    if(legends[0] instanceof Array) {
+                        tmp_legends = legends[i];
+                    }
+                    if(xdatas[0] instanceof Array) {
+                        tmp_xdata = xdatas[i];
+                    }
+                    var basic_option = $this.histOption(tmp_xdata, ydatas[i], tmp_legends, options);
+                    option.append(dates[i], basic_option);
+                }
+                return option.option;
+            }
         };
     };
 })(simple_echarts);

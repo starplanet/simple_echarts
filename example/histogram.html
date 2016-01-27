@@ -61,6 +61,17 @@ vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.7
         ['周末', '工作日'], {'title': '人群在不同时间段对A,B事物的偏好', subtitle: '2015年'}));
 </pre>
 </div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制带时间轴的直方图</h2>
+    <div id="yearly_frequency" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var yearlyFreqChart = echarts.init(document.getElementById('yearly_frequency'));
+yearlyFreqChart.setOption(simple_echarts.hist.histTimelineOption([['1次', '2次', '3次及以上'], ['1次', '2次', '3次及以上']], [[[71.96,19.86,8.18], [86.79,11.32,1.89]], [[51.96,29.86,18.18], [76.79,16.32,6.89]]],
+        [['A类店', 'B类店'],['A类店', 'B类店']], ['201501', '201502'], {'title': '不同店铺类型客户购买次数分布', subtitle: '2015年', markLine: false}));
+simple_echarts.resize(yearlyFreqChart);
+</pre>
+</div>
 <script>
     var freqChart = echarts.init(document.getElementById('frequency'));
     freqChart.setOption(simple_echarts.hist.histOption(['1次', '2次', '3次及以上'], [[71.96,19.86,8.18], [86.79,11.32,1.89]],
@@ -89,6 +100,11 @@ vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.7
     vipFavWorkdayChart.setOption(simple_echarts.hist.barOption(['A','B'], [[15, 85.73], [85, 15]],
             ['周末', '工作日'], {'title': '人群在不同时间段对A,B事物的偏好', subtitle: '2015年'}));
     simple_echarts.resize(vipFavWorkdayChart);
+
+    var yearlyFreqChart = echarts.init(document.getElementById('yearly_frequency'));
+    yearlyFreqChart.setOption(simple_echarts.hist.histTimelineOption([['1次', '2次', '3次及以上'], ['1次', '2次', '3次及以上']], [[[71.96,19.86,8.18], [86.79,11.32,1.89]], [[51.96,29.86,18.18], [76.79,16.32,6.89]]],
+            [['A类店', 'B类店'],['A类店', 'B类店']], ['201501', '201502'], {'title': '不同店铺类型客户购买次数分布', subtitle: '2015年', markLine: false}));
+    simple_echarts.resize(yearlyFreqChart);
 </script>
 </body>
 </html>
