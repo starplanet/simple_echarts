@@ -45,6 +45,22 @@ vipAmountChart.setOption(simple_echarts.line.lineAxisOption([201307, 201308, 201
         ['销量', '单价'], {ylabel: ['双', '元'], legend_x: 'center', legend_orient: 'horizontal', legend_y: 'top'}));
 </pre>
 </div>
+<div style="border-bottom: solid 1px">
+    <h2>绘制多条带时间轴的折线图</h2>
+    <div id="time_sales" style="width: 100%; height: 400px;"></div>
+    <h3>绘制脚本如下:</h3>
+<pre style="word-break: break-word;">
+var timeSalesChart = echarts.init(document.getElementById('time_sales'));
+timeSalesChart.setOption(simple_echarts.line.linesTimeOption(['2015-01-01 10:00:00', '2015-01-01 11:00:00', '2015-01-01 12:00:00',
+'2015-01-01 13:00:00', '2015-01-01 14:00:00', '2015-01-01 15:00:00', '2015-01-01 16:00:00', '2015-01-01 17:00:00',
+'2015-01-01 18:00:00', '2015-01-01 19:00:00', '2015-01-01 20:00:00'],
+        [[1.02, 0.19, 1.35, 6.36, 13.67, 18.65, 22.76, 10.71, 5.81, 3.23, 16.25],
+            [0.05, 0.38, 2.05, 9.49, 21.18, 22.86, 17.97, 8.21, 4.22, 2.9, 10.68],
+            [0.01, 0.31, 2.09, 7.43, 13.51, 18.76, 21.03, 10.38, 5.88, 3.55, 17.04],
+            [0.02, 0.29, 1.88, 11.05, 22.65, 23.9, 13.84, 4.29, 3.35, 3.47, 15.27]],
+        ['A', 'B', 'C', 'D'], {'title': '不同商品销量随时间变化', subtitle: '2015年'}));
+</pre>
+</div>
 <script>
     var firstTryChart = echarts.init(document.getElementById('first_try'));
     firstTryChart.setOption(simple_echarts.line.singleLineOption([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
@@ -67,6 +83,16 @@ vipAmountChart.setOption(simple_echarts.line.lineAxisOption([201307, 201308, 201
             [[5062, 8905, 20918, 25443, 23920, 22535], [409, 424, 521, 708, 925, 961]],
             ['销量', '单价'], {ylabel: ['双', '元'], legend_x: 'center', legend_orient: 'horizontal', legend_y: 'top'}));
     simple_echarts.resize(vipAmountChart);
+
+    var timeSalesChart = echarts.init(document.getElementById('time_sales'));
+    timeSalesChart.setOption(simple_echarts.line.linesTimeOption(['2015-01-01 10:00:00', '2015-01-01 11:00:00', '2015-01-01 12:00:00',
+    '2015-01-01 13:00:00', '2015-01-01 14:00:00', '2015-01-01 15:00:00', '2015-01-01 16:00:00', '2015-01-01 17:00:00',
+    '2015-01-01 18:00:00', '2015-01-01 19:00:00', '2015-01-01 20:00:00'],
+        [[1.02, 0.19, 1.35, 6.36, 13.67, 18.65, 22.76, 10.71, 5.81, 3.23, 16.25],
+            [0.05, 0.38, 2.05, 9.49, 21.18, 22.86, 17.97, 8.21, 4.22, 2.9, 10.68],
+            [0.01, 0.31, 2.09, 7.43, 13.51, 18.76, 21.03, 10.38, 5.88, 3.55, 17.04],
+            [0.02, 0.29, 1.88, 11.05, 22.65, 23.9, 13.84, 4.29, 3.35, 3.47, 15.27]],
+        ['A', 'B', 'C', 'D'], {'title': '不同商品销量随时间变化', subtitle: '2015年'}));
 </script>
 </body>
 </html>
