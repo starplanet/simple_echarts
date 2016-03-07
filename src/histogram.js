@@ -74,7 +74,7 @@ var simple_echarts = window.simple_echarts || {};
                 series : []
             };
 
-            var color_callback = function(params) {
+            var color_multi_callback = function(params) {
                 // build a color map as your need.
                 if(!colorList) {
                     colorList = [
@@ -84,6 +84,18 @@ var simple_echarts = window.simple_echarts || {};
                     ];
                 }
                 return colorList[params.seriesIndex % colorList.length];
+            };
+
+            var color_callback = function(params) {
+                // build a color map as your need.
+                if(!colorList) {
+                    colorList = [
+                        '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                        '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                        '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                    ];
+                }
+                return colorList[params.dataIndex % colorList.length];
             };
 
 
@@ -117,7 +129,11 @@ var simple_echarts = window.simple_echarts || {};
                         ]
                     };
                 }
-                serial_option.itemStyle.normal.color = color_callback;
+                if(ydata.length > 1) {
+                    serial_option.itemStyle.normal.color = color_multi_callback;
+                } else {
+                    serial_option.itemStyle.normal.color = color_callback;
+                }
                 if(stack) {
                     serial_option.stack = 'stack';
                 }
